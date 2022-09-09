@@ -2,10 +2,11 @@
 
 namespace Alura\Cursos\Infra;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMSetup;
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\ORM\{
+    EntityManager,
+    EntityManagerInterface,
+    ORMSetup
+};
 
 class EntityManagerCreator
 {

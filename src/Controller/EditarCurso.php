@@ -5,7 +5,7 @@ namespace Alura\Cursos\Controller;
 use Alura\Cursos\Entity\Curso;
 use Alura\Cursos\Infra\EntityManagerCreator;
 
-class EditarCurso implements interfaceControllerRequire
+class EditarCurso  extends ControllerHtml implements interfaceControllerRequire
 {
     private $entityManager;
 
@@ -28,10 +28,14 @@ class EditarCurso implements interfaceControllerRequire
         }
 
         $curso = $this->entityManager->find(Curso::class, $id);
-        
-        $titulo = "Editar curso";
-        $input_value = $curso->getDescricao();
-        require __DIR__."/../../view/cursos/novo-curso.php";
+
+        echo $this->renderizaHtml(
+            "/cursos/novo-curso.php",
+            [
+                "titulo" => "Editar Curso",
+                "input_value" => $curso->getDescricao()
+            ]
+        );
         
 
     }

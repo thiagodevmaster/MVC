@@ -2,12 +2,17 @@
 
 namespace Alura\Cursos\Controller;
 
-class NovoCurso implements interfaceControllerRequire
+class NovoCurso extends ControllerHtml implements interfaceControllerRequire
 {
     public function processaRequisicao(): void
     {
-        $titulo = "Novo curso";
-        $input_value = "";
-        require __DIR__."/../../view/cursos/novo-curso.php";
+       
+        echo $this->renderizaHtml(
+            "/cursos/novo-curso.php",
+            [
+                "titulo"=>"Novo Curso",
+                "input_value" => ''
+            ]
+        );
     }
 }
