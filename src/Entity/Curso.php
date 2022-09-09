@@ -2,12 +2,12 @@
 
 namespace Alura\Cursos\Entity;
 
-use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\Entity;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
-
-use function PHPSTORM_META\type;
+use Doctrine\ORM\Mapping\{
+    Column,
+    Entity,
+    GeneratedValue,
+    Id
+};
 
 #[Entity]
 class Curso
