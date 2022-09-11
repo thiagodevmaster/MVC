@@ -4,8 +4,11 @@ use Alura\Cursos\Controller\{
     EditarCurso,
     ExcluirCurso,
     ListarCursos,
+    Login,
+    Logout,
     NovoCurso,
-    SalvarCurso    
+    RealizarLogin,
+    SalvarCurso,
 };
 
 
@@ -15,6 +18,9 @@ return [
     '/salvar-curso'=> new SalvarCurso(),
     '/excluir-curso'=> new ExcluirCurso(),
     '/editar-curso'=> new EditarCurso(),
+    '/login'=> new Login(),
+    '/realiza-login'=> new RealizarLogin(),
+    '/logout' => new Logout(),
 ];
 
 

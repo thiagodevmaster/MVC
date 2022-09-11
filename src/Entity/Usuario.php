@@ -1,5 +1,5 @@
 <?php
-namespace Alura\Armazenamento\Entity;
+namespace Alura\Cursos\Entity;
 
 use Doctrine\ORM\Mapping\{
     Column,
@@ -16,14 +16,19 @@ class Usuario
     #[Id, GeneratedValue, Column(type: "integer")]
     private $id;
 
-    #[Column(type: "string")]
+    #[Column(type: "string", length: 200)]
     private $email;
     
-    #[Column(type: "string")]
+    #[Column(type: "string", length: 200)]
     private $senha;
 
     public function senhaEstaCorreta(string $senhaPura): bool
     {
-        return password_verify($senhaPura, $this->senha);
+        if($senhaPura !== $this->senha){
+            return false;
+        }else{
+            return true;
+        }
+        //return password_verify($senhaPura, $this->senha);
     }
 }
