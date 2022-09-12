@@ -3,10 +3,13 @@
 namespace Alura\Cursos\Controller;
 
 use Alura\Cursos\Entity\Curso;
+use Alura\Cursos\Helper\RenderizadorHtml;
 use Alura\Cursos\Infra\EntityManagerCreator;
 
-class EditarCurso  extends ControllerHtml implements interfaceControllerRequire
+class EditarCurso implements interfaceControllerRequire
 {
+    use RenderizadorHtml;
+
     private $entityManager;
 
     public function __construct()
@@ -32,6 +35,7 @@ class EditarCurso  extends ControllerHtml implements interfaceControllerRequire
         echo $this->renderizaHtml(
             "/cursos/novo-curso.php",
             [
+                "curso"=> $curso,
                 "titulo" => "Editar Curso",
                 "input_value" => $curso->getDescricao()
             ]

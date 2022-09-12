@@ -25,3 +25,20 @@
             <div class="jumbotron">
                 <h1><?= $titulo; ?></h1>
             </div>
+
+            <div class="alert alert-<?php  
+                if(isset($_SESSION['tipo_mensagem'])){
+                    echo $_SESSION['tipo_mensagem'];
+                }; 
+            ?>">
+                <?php 
+                    if(isset($_SESSION['mensagem'])){
+                        echo $_SESSION['mensagem'];
+                    };
+                ?>
+            </div>
+
+            <?php 
+                unset($_SESSION['mensagem']);
+                unset($_SESSION['tipo_mensagem']);
+            ?>

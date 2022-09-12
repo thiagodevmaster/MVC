@@ -16,7 +16,8 @@ if(!array_key_exists($caminho, $rotas)){
 session_start();
 
 $eRotaDeLogin = str_contains($caminho, "login");
-if(!isset($_SESSION['logado']) && !$eRotaDeLogin){
+
+if(!isset($_SESSION['logado']) && $eRotaDeLogin === false){
     header('Location: /login');
     exit();
 }
@@ -28,4 +29,6 @@ $classeController = $rotas[$caminho];
  */
 $controlador = new $classeController();
 $controlador->processaRequisicao();
+
+            
 

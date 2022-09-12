@@ -2,8 +2,11 @@
 
 namespace Alura\Cursos\Controller;
 
-class Login extends ControllerHtml implements interfaceControllerRequire
+use Alura\Cursos\Helper\RenderizadorHtml;
+
+class Login implements interfaceControllerRequire
 {
+    use RenderizadorHtml;
     
     public function processaRequisicao(): void
     {

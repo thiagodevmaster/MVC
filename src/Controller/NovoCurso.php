@@ -2,8 +2,12 @@
 
 namespace Alura\Cursos\Controller;
 
-class NovoCurso extends ControllerHtml implements interfaceControllerRequire
+use Alura\Cursos\Helper\RenderizadorHtml;
+
+class NovoCurso implements interfaceControllerRequire
 {
+    use RenderizadorHtml;
+
     public function processaRequisicao(): void
     {
        
