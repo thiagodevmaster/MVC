@@ -2,7 +2,11 @@
 
 require_once __DIR__."/../vendor/autoload.php";
 
-use Alura\Cursos\Controller\interfaceControllerRequire;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7\Response;
+use Nyholm\Psr7Server\ServerRequestCreator;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 
 $rotas = require __DIR__."/../config/routes.php";
@@ -13,6 +17,7 @@ if(!array_key_exists($caminho, $rotas)){
     exit();
 }
 
+
 session_start();
 
 $eRotaDeLogin = str_contains($caminho, "login");
@@ -22,13 +27,34 @@ if(!isset($_SESSION['logado']) && $eRotaDeLogin === false){
     exit();
 }
 
+$psr17Factory = new Psr17Factory();
+
+$creator = new ServerRequestCreator(
+    $psr17Factory, // ServerRequestFactory
+    $psr17Factory, // UriFactory
+    $psr17Factory, // UploadedFileFactory
+    $psr17Factory  // StreamFactory
+);
+
+$serverRequest = $creator->fromGlobals();
 
 $classeController = $rotas[$caminho];
-/**
- * @var interfaceControllerRequire $controlador
- */
-$controlador = new $classeController();
-$controlador->processaRequisicao();
+
+/*** @var ContainerInterface $container */
+$container = require __DIR__ . "/../config/dependecies.php";
+
+/*** @var RequestHandlerInterface $controlador */
+$controlador = $container->get($classeController);
+
+$resposta = $controlador->handle($serverRequest);
+
+foreach($resposta->getHeaders() as $name => $values){
+    foreach ($values as $value) {
+        header(sprintf('%s: %s', $name, $value), false);
+    }
+}
+
+echo $resposta->getBody();
 
             
 

@@ -5,35 +5,38 @@ namespace Alura\Cursos\Controller;
 use Alura\Cursos\Entity\Usuario;
 use Alura\Cursos\Helper\FlashMessageTrait;
 use Alura\Cursos\Infra\EntityManagerCreator;
+use Doctrine\ORM\EntityManagerInterface;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\{ResponseInterface, ServerRequestInterface};
+use Psr\Http\Server\RequestHandlerInterface;
 
-class RealizarLogin implements interfaceControllerRequire
+class RealizarLogin implements RequestHandlerInterface
 {
     use FlashMessageTrait;
 
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
     private $repository;
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->entityManager = EntityManagerCreator::getEntityManager();
+        $this->entityManager = $entityManager;
         $this->repository = $this->entityManager->getRepository(Usuario::class);
     }
 
-    public function processaRequisicao(): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
+        $data = $request->getQueryParams();
 
-        $email = filter_input(
-            INPUT_POST,
-            'email',
+        $email = filter_var(
+            $data['email'],
             FILTER_VALIDATE_EMAIL
         );
 
-        $senha = htmlspecialchars($_POST['senha']);
-        
+        $senha = $data['senha'];
+
         if($email === false || is_null($email)){
             $this->defineMensagem('danger', 'O e-mail digitado não é válido');
-            header("Location: /login");
-            return;
+            return new Response(302, ['Location'=> '/login']);
         }
 
         $user = $this->repository->findOneBy(
@@ -42,13 +45,12 @@ class RealizarLogin implements interfaceControllerRequire
     
         if(is_null($user) || $user->senhaEstaCorreta($senha) === false){
             $this->defineMensagem('danger', 'E-mail ou senha digitado não é válido');
-            header("Location: /login");
-            return;
+            return new Response(302, ['Location'=> '/login']);
         }
 
         $_SESSION['logado'] = true;
 
-        header("Location: /listar-cursos");
+        return new Response(200, ['Location'=>'/listar-cursos']);
 
     }
 }
